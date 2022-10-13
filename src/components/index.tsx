@@ -14,8 +14,8 @@ const Autocomplete: React.FC<Props> = ({placeholder, getData}) => {
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
     const [data, setData] = useState<string[]>([]);
     const [isVisible, setIsVisible] = useState<boolean>(false)
-    const [selectedIndex, setSelectedIndex] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
     const fetchData = async (searchTerm: string) => {
         const result = await getData(searchTerm).finally(() => setIsLoading(false))
