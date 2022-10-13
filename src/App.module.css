@@ -1,0 +1,13 @@
+:root {
+    --color-black: #212121;
+    --color-yellow: #fcd802;
+}
+
+.app {
+    margin: auto;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding-top: 30px;
+}
