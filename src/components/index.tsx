@@ -138,7 +138,7 @@ const Autocomplete: React.FC<Props> = ({placeholder, getData}) => {
         if (!searchTerm) {
             setIsVisible(false)
         }
-    }, [isVisible, searchTerm])
+    }, [searchTerm])
 
     return (
         <div className={styles.container}>
