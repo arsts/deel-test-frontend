@@ -15,9 +15,10 @@ const Autocomplete: React.FC<Props> = ({placeholder, getData}) => {
     const [data, setData] = useState<string[]>([]);
     const [isVisible, setIsVisible] = useState<boolean>(false)
     const [selectedIndex, setSelectedIndex] = useState<number>(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     const fetchData = async (searchTerm: string) => {
-        const result = await getData(searchTerm)
+        const result = await getData(searchTerm).finally(() => setIsLoading(false))
         setData(result);
     }
 
@@ -28,6 +29,7 @@ const Autocomplete: React.FC<Props> = ({placeholder, getData}) => {
 
     useEffect(() => {
         if(debouncedSearchTerm) {
+            setIsLoading(true);
             fetchData(debouncedSearchTerm);
         }
     }, [debouncedSearchTerm])
@@ -147,7 +149,8 @@ const Autocomplete: React.FC<Props> = ({placeholder, getData}) => {
                    onBlur={onBlur}
                    onFocus={onFocus}
                    value={searchTerm}/>
-            {data && isVisible && showSuggestions()}
+            {data && isVisible && !isLoading && showSuggestions()}
+            {isLoading && <p>Loading...</p>}
         </div>
     );
 
