@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { useDebounce } from '../hooks/useDebounce';
+import {useDebounce} from '../hooks/useDebounce';
 import styles from './index.module.css';
 
 
@@ -28,7 +28,7 @@ const Autocomplete: React.FC<Props> = ({placeholder, getData}) => {
     }
 
     useEffect(() => {
-        if(debouncedSearchTerm) {
+        if (debouncedSearchTerm) {
             setIsLoading(true);
             fetchData(debouncedSearchTerm);
         }
@@ -113,24 +113,25 @@ const Autocomplete: React.FC<Props> = ({placeholder, getData}) => {
 
 
     const showSuggestions = () => {
-        if (data.length) {
-            return (
-                <ul className={styles.list} onClick={() => console.log('ul')}>
-                    {
-                        data.map((item, index) => {
-                            return (
-                                <li key={`${item}-${index}`}
-                                    className={index === selectedIndex ? styles.active : undefined}
-                                    onMouseDown={onMouseDown}
-                                    onClick={onClick}>{getHighlightedText(item, searchTerm)}</li>
-                            )
-                        })
-                    }
-                </ul>
-            )
-        } else {
+        if (!data || !debouncedSearchTerm) {
             return (<p>No result</p>)
         }
+
+        return (
+            <ul className={styles.list} onClick={() => console.log('ul')}>
+                {
+                    data.map((item, index) => {
+                        return (
+                            <li key={`${item}-${index}`}
+                                className={index === selectedIndex ? styles.active : undefined}
+                                onMouseDown={onMouseDown}
+                                onClick={onClick}>{getHighlightedText(item, searchTerm)}</li>
+                        )
+                    })
+                }
+            </ul>
+        )
+
     }
 
     useEffect(() => {
@@ -149,7 +150,7 @@ const Autocomplete: React.FC<Props> = ({placeholder, getData}) => {
                    onBlur={onBlur}
                    onFocus={onFocus}
                    value={searchTerm}/>
-            {data && isVisible && !isLoading && showSuggestions()}
+            {data && isVisible && !isLoading && debouncedSearchTerm && showSuggestions()}
             {isLoading && <p>Loading...</p>}
         </div>
     );
